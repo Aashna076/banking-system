@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS transaction_audit_logs (
     result ENUM('SUCCESS', 'FAILED', 'REJECTED') NOT NULL,
     reason VARCHAR(255),
     thread_name VARCHAR(100),
+    duration_ms BIGINT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_audit_transaction
@@ -73,4 +74,17 @@ CREATE TABLE IF NOT EXISTS transaction_audit_logs (
     CONSTRAINT fk_audit_account
         FOREIGN KEY (account_id)
         REFERENCES accounts(account_id)
+);
+
+-- 5. Failed Transactions Table
+CREATE TABLE IF NOT EXISTS failed_transactions (
+    failure_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    transaction_id BIGINT NOT NULL UNIQUE,
+    error_category VARCHAR(100) NOT NULL,
+    reason VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_failed_transaction
+        FOREIGN KEY (transaction_id)
+        REFERENCES transactions(transaction_id)
 );
