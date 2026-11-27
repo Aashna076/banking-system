@@ -37,6 +37,9 @@ public class TransactionAuditLog {
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "duration_ms")
+    private Long durationMs;
+
     public TransactionAuditLog() {
     }
 
@@ -98,6 +101,14 @@ public class TransactionAuditLog {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public Long getDurationMs() {
+        return durationMs;
+    }
+
+    public void setDurationMs(Long durationMs) {
+        this.durationMs = durationMs;
     }
 }
 
